@@ -1,27 +1,31 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from bs4 import BeautifulSoup
+from crawler.selenium_crawler import start_browser, fetch_html, close_browser
+from crawler.extractor import extract_by_class, extract_by_selectors
+from crawler.pipeline import save_to_json
 
-# Mở Chrome
-# options = Options()
-# options.add_argument("--headless")
-# driver = webdriver.Chrome(options=options)
-driver = webdriver.Chrome()
+def run():
+    driver = start_browser(headless=False)
 
-driver.get("https://www.droidviews.com/")
+    url = "https://www.droidviews.com/mythic-without-stress-how-wow-boosting-really-helps-in-the-war-within/"
+    html = fetch_html(driver, url)
+    if not html:
+        print("Không thể tải trang web. Đang đóng trình duyệt...")
+        close_browser(driver)
+        return
+    # Lấy danh sách elements theo class
+    elements = extract_by_class(html, "postsmod1-details")
+    print(f"Tìm thấy {len(elements)} elements")
 
-# Lấy toàn bộ HTML của trang
-html = driver.page_source
-# # Dùng BeautifulSoup để phân tích
-soup = BeautifulSoup(html, "html.parser")
+    # Lấy theo selectors chi tiết
+    selectors = {
+        "title": "h1.entry-title",
+        "content": "div.entry-content"
+    }
+    data = extract_by_selectors(html, selectors)
+    print(data)
 
-elements = []
-# In ra tất cả CSS selectors + nội dung text
-for elem in soup.find_all(True):  # True = lấy tất cả các tag
-    if "postsmod1-details" in elem.get("class", []):
-        elements.append(elem)
+    save_to_json(data, "output.json")
 
-print(elements)
+    close_browser(driver)
 
-driver.close()
+if __name__ == "__main__":
+    run()
