@@ -1,16 +1,16 @@
 import psycopg2
 import psycopg2.extras
-from config import DB_CONFIG
+import os
 
 def connect_db():
     """Kết nối đến PostgreSQL database"""
     try:
         conn = psycopg2.connect(
-            host=DB_CONFIG["host"],
-            port=DB_CONFIG["port"],
-            database=DB_CONFIG["database"],
-            user=DB_CONFIG["user"],
-            password=DB_CONFIG["password"]
+            host=os.getenv("DB_HOST"),
+            port=os.getenv("DB_PORT"),
+            database=os.getenv("DB_NAME"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD")
         )
         # Tạo cursor với option RealDictCursor để trả về kết quả dạng dictionary
         cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
