@@ -30,7 +30,7 @@ def extract_multiple_items(html: str, container_selector: str, item_selectors: d
     
     for container in containers:
         item_data = {}
-        print(item_selectors.items())
+        # print(item_selectors.items())
         for key, selector in item_selectors.items():
             elem = container.select_one(selector)
             item_data[key] = elem.get_text(strip=True) if elem else None
