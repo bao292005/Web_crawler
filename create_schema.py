@@ -132,17 +132,6 @@ collections = {
         ("navigation_id", "uuid", False),
         ("parent_id", "uuid", True),
     ],
-    "Users": [
-        ("id", "uuid", True),
-        ("email", "string", False),
-        ("name", "string", False),
-        ("role", "string", False),
-    ],
-    "SiteUsers": [
-        ("id", "uuid", True),
-        ("site_id", "uuid", False),
-        ("user_id", "uuid", False),
-    ],
     "Categories": [
         ("id", "uuid", True),
         ("name", "string", False),
@@ -154,11 +143,6 @@ collections = {
         ("id", "uuid", True),
         ("name", "string", False),
         ("slug", "string", False),
-    ],
-    "PostTags": [
-        ("id", "uuid", True),
-        ("content_id", "uuid", False),
-        ("tag_id", "uuid", False),
     ],
     "Comments": [
         ("id", "uuid", True),
