@@ -1,2 +1,4 @@
 create_schema.py
 .env
+__pycache__/
+output.json
